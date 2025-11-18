@@ -5,6 +5,9 @@
 
 set -e
 
+# Trap Ctrl+C for clean shutdown
+trap 'echo ""; echo "🛑 Arrêt de la capture..."; echo "💾 Finalisation du fichier MXF..."; exit 0' SIGINT SIGTERM
+
 # Configuration - Edit these values for your setup
 OUTPUT_DIR="$HOME/Desktop/Captures"  # Change to your desired output directory
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
@@ -14,6 +17,36 @@ START_TC=$(date +'%H:%M:%S:00')
 
 # Create output directory if it doesn't exist
 mkdir -p "$OUTPUT_DIR"
+
+# Check available disk space (DNxHD 120Mb/s = ~54 GB/hour = ~900 MB/min)
+echo "🔍 Vérification de l'espace disque disponible..."
+AVAILABLE_GB=$(df -g "${OUTPUT_DIR}" | awk 'NR==2 {print $4}')
+REQUIRED_GB=60  # Minimum 60 GB recommended for 1 hour capture
+
+if [ "${AVAILABLE_GB}" -lt "${REQUIRED_GB}" ]; then
+    echo ""
+    echo "⚠️  ATTENTION : Espace disque insuffisant !"
+    echo ""
+    echo "   Disponible : ${AVAILABLE_GB} GB"
+    echo "   Recommandé  : ${REQUIRED_GB} GB minimum"
+    echo ""
+    echo "   📊 Capacité de capture estimée :"
+    echo "      ~${AVAILABLE_GB} GB = ~$((AVAILABLE_GB * 60 / 54)) minutes de vidéo"
+    echo ""
+    echo "   💡 DNxHD 120 Mb/s = ~54 GB/heure = ~900 MB/minute"
+    echo ""
+    read -p "Continuer malgré l'espace limité ? (o/N) " -n 1 -r
+    echo ""
+    if [[ ! $REPLY =~ ^[OoYy]$ ]]; then
+        echo ""
+        echo "❌ Capture annulée - Libérez de l'espace disque et réessayez"
+        exit 1
+    fi
+    echo ""
+fi
+
+echo "✅ Espace disque : ${AVAILABLE_GB} GB disponible"
+echo ""
 
 echo "🎬 DNxHD Capture to MXF OP1a"
 echo "============================="
@@ -46,7 +79,7 @@ ffmpeg \
     -audio_input embedded \
     -channels 2 \
     -video_input sdi \
-    -i "$DEVICE_NAME" \
+    -i "${DEVICE_NAME}" \
     -c:v dnxhd \
     -b:v 120M \
     -flags +ilme+ildct \
@@ -54,18 +87,18 @@ ffmpeg \
     -c:a pcm_s16le \
     -ar 48000 \
     -ac 2 \
-    -timecode "$START_TC" \
+    -timecode "${START_TC}" \
     -f mxf \
     -store_user_comments 0 \
-    "$OUTPUT_FILE"
+    "${OUTPUT_FILE}"
 
 echo ""
 echo "✅ Recording completed!"
-echo "📁 File: $OUTPUT_FILE"
+echo "📁 File: ${OUTPUT_FILE}"
 
 # Display file size and open folder
-if [ -f "$OUTPUT_FILE" ]; then
-    FILE_SIZE=$(du -h "$OUTPUT_FILE" | cut -f1)
-    echo "📊 Size: $FILE_SIZE"
-    open "$OUTPUT_DIR"
+if [ -f "${OUTPUT_FILE}" ]; then
+    FILE_SIZE=$(du -h "${OUTPUT_FILE}" | cut -f1)
+    echo "📊 Size: ${FILE_SIZE}"
+    open "${OUTPUT_DIR}"
 fi

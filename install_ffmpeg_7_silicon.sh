@@ -55,8 +55,8 @@ echo ""
     --enable-libx264 \
     --enable-libx265 \
     --enable-decklink \
-    --extra-cflags="-I$WORK_DIR/Blackmagic_DeckLink_SDK -I$HOMEBREW_PREFIX/include" \
-    --extra-ldflags="-L$HOMEBREW_PREFIX/lib -framework CoreFoundation" \
+    --extra-cflags="-I${WORK_DIR}/Blackmagic_DeckLink_SDK -I${HOMEBREW_PREFIX}/include" \
+    --extra-ldflags="-L${HOMEBREW_PREFIX}/lib -framework CoreFoundation" \
     --arch=arm64
 
 if [ $? -ne 0 ]; then
@@ -81,7 +81,27 @@ fi
 echo ""
 echo "✅ Compilation réussie !"
 echo ""
-echo "📦 Installation..."
+echo "📦 Installation système requise"
+echo ""
+echo "⚠️  L'installation nécessite des privilèges administrateur (sudo)"
+echo "   FFmpeg sera installé dans : /usr/local/bin/ffmpeg"
+echo ""
+read -p "Continuer avec l'installation ? (o/N) " -n 1 -r
+echo ""
+
+if [[ ! $REPLY =~ ^[OoYy]$ ]]; then
+    echo ""
+    echo "❌ Installation annulée"
+    echo ""
+    echo "💡 FFmpeg compilé disponible dans : ${WORK_DIR}/ffmpeg/ffmpeg"
+    echo "   Vous pouvez l'installer manuellement plus tard avec :"
+    echo "   cd ${WORK_DIR}/ffmpeg && sudo make install"
+    echo ""
+    exit 0
+fi
+
+echo ""
+echo "📦 Installation en cours..."
 
 sudo make install
 

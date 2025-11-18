@@ -1,0 +1,90 @@
+# Capture MXF System - .gitignore
+
+# ========================================
+# Fichiers de Capture Vidéo
+# ========================================
+*.mxf
+*.mov
+*.mp4
+*.avi
+Captures/
+Desktop/Captures/
+
+# ========================================
+# FFmpeg Build Directory
+# ========================================
+ffmpeg-decklink-build/
+ffmpeg/
+Blackmagic_DeckLink_SDK/
+
+# ========================================
+# Logs et Fichiers Temporaires
+# ========================================
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ========================================
+# macOS Système
+# ========================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# ========================================
+# Applications macOS
+# ========================================
+*.app
+Applications/
+
+# ========================================
+# Fichiers de Configuration Locaux
+# ========================================
+.env
+.env.local
+config.local.sh
+
+# ========================================
+# IDE et Éditeurs
+# ========================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ========================================
+# Documentation Temporaire
+# ========================================
+SECURITY_IMPROVEMENTS.md
+NOTES.md
+TODO.md
+
+# ========================================
+# Fichiers de Test
+# ========================================
+test_*.mxf
+sample_*.mxf
+debug_*.log
