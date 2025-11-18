@@ -68,16 +68,16 @@ Capture broadcast-quality DNxHD video directly from SDI sources to MXF OP1a form
 The SDK is required to compile FFmpeg with DeckLink support.
 
 1. Visit: <https://www.blackmagicdesign.com/support/family/capture-and-playback>
-2. Download **Desktop Video SDK** (latest version)
+2. Download **Desktop Video SDK** (v12.5)
 3. Extract the downloaded archive
 4. Create build directory and copy SDK:
 
 ```bash
 mkdir -p ~/ffmpeg-decklink-build
-cp -r "Blackmagic DeckLink SDK 14.2/Mac/include" ~/ffmpeg-decklink-build/Blackmagic_DeckLink_SDK
+cp -r "Blackmagic DeckLink SDK 12.5/Mac/include" ~/ffmpeg-decklink-build/Blackmagic_DeckLink_SDK
 ```
 
-**Note**: Adjust path according to your SDK version (e.g., "14.2", "14.3", etc.)
+**Note**: Adjust path according to your SDK version (e.g., "12.5", "12.9", etc.)
 
 ### Step 2: Install Homebrew Dependencies (Optional)
 
@@ -93,7 +93,7 @@ This will compile FFmpeg 7.1 with DeckLink support:
 
 ```bash
 cd ~/ffmpeg-decklink-build
-curl -O https://raw.githubusercontent.com/YOUR-USERNAME/capture-mxf-system/main/install_ffmpeg_7_silicon.sh
+curl -O https://raw.githubusercontent.com/BenWaraiotoko/capture-mxf-system/main/install_ffmpeg_7_silicon.sh
 chmod +x install_ffmpeg_7_silicon.sh
 ./install_ffmpeg_7_silicon.sh
 ```
@@ -110,7 +110,7 @@ The script will:
 
 ```bash
 cd ~
-git clone https://github.com/YOUR-USERNAME/capture-mxf-system.git
+git clone https://github.com/BenWaraiotoko/capture-mxf-system.git
 cd capture-mxf-system
 chmod +x *.sh
 ```
@@ -179,7 +179,7 @@ Expected output:
 **Configuration**:
 
 ```bash
-OUTPUT_DIR="/Volumes/tmcpostprod/..."  # Edit this path
+OUTPUT_DIR="/Volumes/..."  # Edit this path
 DEVICE_NAME="UltraStudio 4K Mini"
 ```
 
